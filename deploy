@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+set -e
+
+echo 'Error: no function name in file' >&2
+exit 1
+funcname=ERROR
+
+gcloud functions deploy $funcname --trigger-http --allow-unauthenticated --runtime nodejs16
+
