@@ -24,6 +24,16 @@ type builder
 
 open Model
 
+let ymdToDate = ({year, month, day}) => {
+  let {toFloat} = module(Belt.Int)
+  Js.Date.makeWithYMD(
+    ~year=year->toFloat,
+    ~month=(month-1)->toFloat,
+    ~date=day->toFloat,
+    ()
+  )
+}
+
 let generateRSS = args => {
   let builder = newBuilder()
   builder->buildObjectRSS({"rss": {
@@ -31,13 +41,13 @@ let generateRSS = args => {
       "version": "2.0"
     },
     "channel": {
-      "title": "Supreme Court Oral Arguments",
-      "description": "Oral argument mp3s from the United States Supreme Court",
+      "title": "Federal Circuit Oral Arguments",
+      "description": "Oral argument mp3s from the Court of Appeals for the Federal Circuit",
       "item": args->Js.Array2.map(arg => {
         {
           "title": arg.caption,
           "link": arg.mp3URL,
-          "pubDate": arg.date->Js.Date.toUTCString
+          "pubDate": arg.date->ymdToDate->Js.Date.toUTCString
         }
       })
     }
