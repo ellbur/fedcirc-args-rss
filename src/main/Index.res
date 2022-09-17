@@ -17,7 +17,7 @@ type httpFunction = (request, response) => ()
 @send external status: (response, int) => () = "status"
 
 http("fedcircArgsRSS", (_req, res) => {
-  listArgs()->thenResolve(generateRSS)->thenResolve(rss => {
+  Main.doRSS()->thenResolve(rss => {
     res->set("Content-Type", "application/rss+xml")
     res->send(rss)
   })->Promise.catch(e => {
