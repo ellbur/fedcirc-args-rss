@@ -1,14 +1,7 @@
 
-type ymd = {
-  year: int,
-  month: int,
-  day: int
-}
-
 type arg = {
-  date: ymd,
-  appealNumber: string,
-  caption: string,
+  date: Js.Date.t,
+  title: string,
   mp3URL: string
 }
 
