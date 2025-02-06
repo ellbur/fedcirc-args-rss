@@ -16,7 +16,7 @@ let findMP3URL: string => option<string> = html => {
   let mapFind: (array<'a>, 'a => option<'b>) => option<'b> = (arr, f) => {
     let rec iter: int => option<'b> = i => {
       if i < arr->Js.Array2.length {
-        switch f(arr[i]) {
+        switch f(arr[i]->Option.getExn) {
           | Some(x) => Some(x)
           | None => iter(i + 1)
         }

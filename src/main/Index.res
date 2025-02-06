@@ -2,7 +2,6 @@
 let listArgs = ArgsListing.listArgs
 let generateRSS = RSSGeneration.generateRSS
 let log = Js.Console.log
-let then = Promise.then
 let thenResolve = Promise.thenResolve
 
 type request = {
@@ -16,15 +15,20 @@ type httpFunction = (request, response) => ()
 @send external set: (response, string, string) => () = "set"
 @send external status: (response, int) => () = "status"
 
-http("fedcircArgsRSS", (_req, res) => {
-  Main.doRSS()->thenResolve(rss => {
+let fedcircArgsRSS = async (_req, res) => {
+  try {
+    let rss = await Main.doRSS()
     res->set("Content-Type", "application/rss+xml")
     res->send(rss)
-  })->Promise.catch(e => {
-    log(e)
-    res->status(500)
-    res->send("")
-    Promise.resolve()
-  })->ignore
-})
+  }
+  catch {
+    | Exn.Error(e) => {
+      log(e)
+      res->status(501)
+      res->send("")
+    }
+  }
+}
+
+http("fedcircArgsRSS", (req, res) => { fedcircArgsRSS(req, res)->Promise.done })
 

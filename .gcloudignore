@@ -2,8 +2,6 @@
 .git
 .gitignore
 /node_modules
-*.res
-bsconfig.json
 .merlin
-/lib/bs
-webpack.config.js
+/lib
+/working

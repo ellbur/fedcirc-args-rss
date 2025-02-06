@@ -4,5 +4,5 @@ set -e
 
 funcname=fedcircArgsRSS
 
-gcloud functions deploy $funcname --trigger-http --allow-unauthenticated --runtime nodejs16
+gcloud functions deploy $funcname --gen2 --trigger-http --allow-unauthenticated --runtime nodejs22
 

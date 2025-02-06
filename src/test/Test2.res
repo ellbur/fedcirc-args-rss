@@ -52,11 +52,11 @@ let args =
   )->Promise.thenResolve(resp => {
     Js.Console.log(resp)
     resp.data["data"]->Js.Array2.map(entry => {
-      let html = parseHTML(entry[2])
-      let a = (html->getElementsByTagName("a"))[0]
+      let html = parseHTML(entry[2]->Option.getExn)
+      let a = ((html->getElementsByTagName("a"))[0])->Option.getExn
       {
-        date: parseSlashesMDY(entry[0]),
-        appealNumber: entry[1],
+        date: parseSlashesMDY(entry[0]->Option.getExn),
+        appealNumber: entry[1]->Option.getExn,
         caption: a->getAttribute("sort"),
         mp3URL: a->getAttribute("href")
       }
